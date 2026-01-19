@@ -24,7 +24,7 @@ cd colab-notebooks
 git init
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/colab-notebooks.git
+git remote add origin https://github.com/m0xt64/colab-notebooks.git
 git push -u origin main
 ```
 
@@ -47,7 +47,7 @@ Copy `notebooks/template.ipynb` for new notebooks. Each notebook starts with:
 
 ```python
 # Clone repo and install dependencies
-!git clone https://github.com/YOUR_USERNAME/colab-notebooks.git /content/repo 2>/dev/null || true
+!git clone https://github.com/m0xt64/colab-notebooks.git /content/repo 2>/dev/null || true
 %cd /content/repo
 !pip install -q -r requirements.txt
 
