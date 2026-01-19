@@ -16,3 +16,4 @@ python-dotenv>=1.0.0
 # Add your project-specific dependencies below
 # langchain>=0.1.0
 # tiktoken>=0.5.0
+dune-client>=1.0.0
