@@ -11,6 +11,22 @@ def is_colab() -> bool:
     return 'google.colab' in sys.modules
 
 
+def _load_dotenv():
+    """Load .env file if running locally."""
+    if not is_colab():
+        try:
+            from dotenv import load_dotenv
+            # Look for .env in project root
+            env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+            if os.path.exists(env_path):
+                load_dotenv(env_path)
+        except ImportError:
+            pass
+
+# Load .env on import
+_load_dotenv()
+
+
 def setup_environment(repo_url: str = None, install_requirements: bool = True):
     """
     Set up the Colab environment.
@@ -72,8 +88,10 @@ def get_openai_client():
 
     api_key = get_secret('OPENAI_API_KEY')
     if not api_key:
-        raise ValueError("OPENAI_API_KEY not found in Colab Secrets. "
-                        "Add it via the key icon in the left sidebar.")
+        if is_colab():
+            raise ValueError("OPENAI_API_KEY not found. Add it via the key icon in the left sidebar.")
+        else:
+            raise ValueError("OPENAI_API_KEY not found. Add it to .env file or set as environment variable.")
 
     return OpenAI(api_key=api_key)
 
@@ -89,8 +107,10 @@ def get_anthropic_client():
 
     api_key = get_secret('ANTHROPIC_API_KEY')
     if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY not found in Colab Secrets. "
-                        "Add it via the key icon in the left sidebar.")
+        if is_colab():
+            raise ValueError("ANTHROPIC_API_KEY not found. Add it via the key icon in the left sidebar.")
+        else:
+            raise ValueError("ANTHROPIC_API_KEY not found. Add it to .env file or set as environment variable.")
 
     return Anthropic(api_key=api_key)
 
