@@ -247,19 +247,19 @@
 
     /* ──────────── CALENDAR ──────────── */
     .cal-card {
-      background: transparent;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      box-shadow: none;
-      padding: 0 0 16px;
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: var(--r);
+      padding: 20px 14px 16px;
       margin: 0 16px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
     }
 
     .wdhdr-row {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .wdhdr {
@@ -276,39 +276,42 @@
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 2px;
-      background: rgba(148, 128, 108, 0.2);
-      border-radius: 14px;
-      overflow: hidden;
     }
 
     .day {
       aspect-ratio: 1;
-      border-radius: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: transform 0.12s;
       position: relative;
-      background: rgba(255, 250, 244, 0.5);
+      padding: 2px;
     }
 
     .day:active { transform: scale(0.88); }
-    .day.empty  { cursor: default; pointer-events: none; background: rgba(255,250,244,0.18); }
+    .day.empty  { cursor: default; pointer-events: none; }
 
     .day-num {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
       font-size: 13px;
       font-weight: 500;
       line-height: 1;
     }
 
-    /* Today: bold number + small dot at bottom */
-    .day.today { font-weight: 700; }
+    /* Today: bold + small dot below the number */
+    .day.today .day-num { font-weight: 700; }
 
     .day.today::after {
       content: '';
       position: absolute;
-      bottom: 5px;
+      bottom: 3px;
       left: 50%;
       transform: translateX(-50%);
       width: 3px;
@@ -317,9 +320,19 @@
       background: var(--dark);
     }
 
-    /* Done: workout color bg (via JS) + dark inset outline */
-    .day.is-done { box-shadow: inset 0 0 0 1.5px var(--dark); }
-    .day.is-done .day-num { font-weight: 700; }
+    /* Done: coloured circle + dark ring (via CSS + JS) */
+    .day.is-done .day-num {
+      box-shadow: 0 0 0 1.5px var(--dark);
+      font-weight: 700;
+    }
+
+    /* Planned, not done: small coloured dot below number */
+    .day-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      margin-top: 2px;
+    }
 
     /* ──────────── WORKOUT COLORS ──────────── */
     .c-pilates  { background: #E8D5CC; }
@@ -702,11 +715,13 @@
         if (entry?.workout) {
           const c = W_COLORS[entry.workout];
           if (entry.done) {
-            cell.style.background = c.bg;
             cell.classList.add('is-done');
+            num.style.background = c.bg;
             num.style.color = c.fg;
           } else {
-            cell.style.background = hexAlpha(c.bg, 0.35);
+            const dot = document.createElement('div');
+            dot.className = `day-dot c-${entry.workout}`;
+            cell.appendChild(dot);
           }
         }
 
