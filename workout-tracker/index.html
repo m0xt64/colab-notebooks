@@ -317,8 +317,9 @@
       border-radius: 50%;
     }
 
-    /* Done: entire cell fills with workout color */
+    /* Done: dark border around cell + colored circle on the number */
     .day.is-done {
+      border: 1.5px solid var(--dark);
       border-radius: 13px;
     }
 
@@ -700,9 +701,11 @@
         if (entry?.workout) {
           const c = W_COLORS[entry.workout];
           if (entry.done) {
-            cell.style.background = c.bg;
             cell.classList.add('is-done');
-            num.style.color = c.fg;
+            if (!isToday) {
+              num.style.background = c.bg;
+              num.style.color = c.fg;
+            }
           } else {
             const dot = document.createElement('div');
             dot.className = `day-dot c-${entry.workout}`;
