@@ -332,15 +332,13 @@
     /* ──────────── WORKOUT COLORS ──────────── */
     .c-pilates  { background: #EDD5E8; }
     .c-silovy   { background: #F2E0C2; }
-    .c-volejbal { background: #C8DFF0; }
-    .c-kolo     { background: #C8EDD8; }
     .c-diastaza { background: #F0C8CC; }
+    .c-ostatni  { background: #DDD8D0; }
 
     .t-pilates  { color: #8B3A7A; }
     .t-silovy   { color: #B87430; }
-    .t-volejbal { color: #2878A8; }
-    .t-kolo     { color: #2A8A50; }
     .t-diastaza { color: #B83040; }
+    .t-ostatni  { color: #5A5248; }
 
     /* ──────────── LEGEND ──────────── */
     .legend {
@@ -556,9 +554,8 @@
     <div class="legend">
       <div class="leg"><div class="leg-dot c-pilates"></div>Pilátes</div>
       <div class="leg"><div class="leg-dot c-silovy"></div>Silový</div>
-      <div class="leg"><div class="leg-dot c-volejbal"></div>Volejbal</div>
-      <div class="leg"><div class="leg-dot c-kolo"></div>Kolo</div>
       <div class="leg"><div class="leg-dot c-diastaza"></div>Diastáza</div>
+      <div class="leg"><div class="leg-dot c-ostatni"></div>Ostatní</div>
     </div>
   </div>
 
@@ -568,12 +565,11 @@
       <div class="handle"></div>
       <div class="sheet-date" id="sheetDate"></div>
       <div class="wo-grid">
-        <div class="wo-btn c-pilates t-pilates"    data-w="pilates"  onclick="pick('pilates')">Pilátes</div>
-        <div class="wo-btn c-silovy t-silovy"      data-w="silovy"   onclick="pick('silovy')">Silový trénink</div>
-        <div class="wo-btn c-volejbal t-volejbal"  data-w="volejbal" onclick="pick('volejbal')">Volejbal</div>
-        <div class="wo-btn c-kolo t-kolo"          data-w="kolo"     onclick="pick('kolo')">Kolo</div>
-        <div class="wo-btn c-diastaza t-diastaza"  data-w="diastaza" onclick="pick('diastaza')">Diastáza</div>
-        <div class="wo-btn wo-none"                data-w=""         onclick="pick('')">Žádný trénink</div>
+        <div class="wo-btn c-pilates t-pilates"   data-w="pilates"  onclick="pick('pilates')">Pilátes</div>
+        <div class="wo-btn c-silovy t-silovy"     data-w="silovy"   onclick="pick('silovy')">Silový trénink</div>
+        <div class="wo-btn c-diastaza t-diastaza" data-w="diastaza" onclick="pick('diastaza')">Diastáza</div>
+        <div class="wo-btn c-ostatni t-ostatni"   data-w="ostatni"  onclick="pick('ostatni')">Ostatní</div>
+        <div class="wo-btn wo-none"               data-w=""         onclick="pick('')">Žádný trénink</div>
       </div>
       <div class="done-row disabled" id="doneRow" onclick="toggleDone()">
         <span class="done-row-label">Označit jako splněno ✓</span>
@@ -615,9 +611,8 @@
     const W_COLORS = {
       pilates:  { bg: '#EDD5E8', fg: '#8B3A7A' },
       silovy:   { bg: '#F2E0C2', fg: '#B87430' },
-      volejbal: { bg: '#C8DFF0', fg: '#2878A8' },
-      kolo:     { bg: '#C8EDD8', fg: '#2A8A50' },
       diastaza: { bg: '#F0C8CC', fg: '#B83040' },
+      ostatni:  { bg: '#DDD8D0', fg: '#5A5248' },
     };
 
     let year = new Date().getFullYear();
