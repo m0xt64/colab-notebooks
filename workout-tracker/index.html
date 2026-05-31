@@ -400,7 +400,7 @@
   </header>
 
   <!-- Title -->
-  <h1 class="title">My<br>Calendar</h1>
+  <h1 class="title">Workout</h1>
 
   <!-- Controls -->
   <div class="controls">
@@ -412,8 +412,7 @@
     </div>
     <div class="filter-pill">
       <div class="ftab on" data-f="all"      onclick="setFilter('all')">Vše</div>
-      <div class="fbadge" id="fbadge">0</div>
-      <div class="ftab"   data-f="pilates"   onclick="setFilter('pilates')">Pilates</div>
+<div class="ftab"   data-f="pilates"   onclick="setFilter('pilates')">Pilates</div>
       <div class="ftab"   data-f="diastaza"  onclick="setFilter('diastaza')">Diastáza</div>
       <div class="ftab"   data-f="silovy"    onclick="setFilter('silovy')">Silový</div>
     </div>
@@ -506,7 +505,6 @@
       if (!k.startsWith(prefix)) return;
       if (filt === 'all' ? (v.silovy||v.pilates||v.diastaza) : v[filt]) count++;
     });
-    document.getElementById('fbadge').textContent = count;
 
     const grid = document.getElementById('calGrid');
     grid.innerHTML = '';
