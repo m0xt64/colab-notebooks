@@ -264,7 +264,10 @@
       max-width: 430px;
       transform: translateY(110%);
       transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+      touch-action: none;
     }
+
+    .sheet.dragging { transition: none; }
 
     .overlay.open .sheet { transform: translateY(0); }
 
@@ -638,6 +641,46 @@
   }
 
   render();
+
+  // ── SWIPE-DOWN TO DISMISS ──
+  (function() {
+    const sheet = document.querySelector('.sheet');
+    let startY = 0, currentY = 0, dragging = false;
+
+    function onStart(e) {
+      if (!document.getElementById('overlay').classList.contains('open')) return;
+      startY = e.touches ? e.touches[0].clientY : e.clientY;
+      currentY = 0;
+      dragging = true;
+      sheet.classList.add('dragging');
+    }
+
+    function onMove(e) {
+      if (!dragging) return;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      currentY = Math.max(0, y - startY);
+      sheet.style.transform = `translateY(${currentY}px)`;
+      // Fade overlay background as user pulls down
+      const progress = Math.min(currentY / 220, 1);
+      document.getElementById('overlay').style.opacity = 1 - progress * 0.5;
+      e.preventDefault();
+    }
+
+    function onEnd() {
+      if (!dragging) return;
+      dragging = false;
+      sheet.classList.remove('dragging');
+      document.getElementById('overlay').style.opacity = '';
+      sheet.style.transform = '';
+      if (currentY > 100) {
+        closeSheet();
+      }
+    }
+
+    sheet.addEventListener('touchstart', onStart, { passive: true });
+    sheet.addEventListener('touchmove', onMove, { passive: false });
+    sheet.addEventListener('touchend', onEnd);
+  })();
 </script>
 </body>
 </html>
