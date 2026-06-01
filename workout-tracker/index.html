@@ -350,6 +350,30 @@
       background: #1A1612;
     }
 
+    .sw-ostatni {
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(0,0,0,0.55) 0px,
+          rgba(0,0,0,0.55) 1.5px,
+          #F2EDE7 1.5px,
+          #F2EDE7 6px
+        );
+      border: 1px solid rgba(0,0,0,0.15);
+    }
+
+    /* ── OSTATNÍ: dark diagonal hatching on calendar ── */
+    .day.v-ostatni:not(.v-silovy):not(.v-pilates) {
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(0,0,0,0.42) 0px,
+          rgba(0,0,0,0.42) 1.5px,
+          rgba(254,252,249,0.92) 1.5px,
+          rgba(254,252,249,0.92) 6px
+        );
+    }
+
     .act-name {
       font-size: 15.5px;
       font-weight: 600;
@@ -419,6 +443,7 @@
 <div class="ftab"   data-f="pilates"   onclick="setFilter('pilates')">Pilates</div>
       <div class="ftab"   data-f="diastaza"  onclick="setFilter('diastaza')">Diastáza</div>
       <div class="ftab"   data-f="silovy"    onclick="setFilter('silovy')">Silový</div>
+      <div class="ftab"   data-f="ostatni"   onclick="setFilter('ostatni')">Ostatní</div>
     </div>
   </div>
 
@@ -464,6 +489,14 @@
       <div class="act-check">✓</div>
     </div>
 
+    <div class="act-row" id="row-ostatni" onclick="toggle('ostatni')">
+      <div class="act-left">
+        <div class="act-swatch sw-ostatni"></div>
+        <span class="act-name">Ostatní</span>
+      </div>
+      <div class="act-check">✓</div>
+    </div>
+
     <button class="save-btn" onclick="save()">Uložit</button>
   </div>
 </div>
@@ -479,7 +512,7 @@
   let db = JSON.parse(localStorage.getItem('myCal') || '{}');
   let filt = 'all';
   let selDate = null;
-  let ms = { silovy: false, pilates: false, diastaza: false };
+  let ms = { silovy: false, pilates: false, diastaza: false, ostatni: false };
 
   function fmt(y,m,d) {
     return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -507,7 +540,7 @@
     let count = 0;
     Object.entries(db).forEach(([k,v]) => {
       if (!k.startsWith(prefix)) return;
-      if (filt === 'all' ? (v.silovy||v.pilates||v.diastaza) : v[filt]) count++;
+      if (filt === 'all' ? (v.silovy||v.pilates||v.diastaza||v.ostatni) : v[filt]) count++;
     });
 
     const grid = document.getElementById('calGrid');
@@ -531,11 +564,12 @@
       const classes = ['day'];
       if (isToday) classes.push('is-today');
 
-      const hasActivity = e.silovy || e.pilates || e.diastaza;
+      const hasActivity = e.silovy || e.pilates || e.diastaza || e.ostatni;
       const matchesFilter = filt === 'all' ? hasActivity : e[filt];
 
-      // Visual state (silovy dominates for background)
+      // Visual state (priority: silovy > ostatni > pilates)
       if (e.silovy && (filt === 'all' || filt === 'silovy')) classes.push('v-silovy');
+      else if (e.ostatni && (filt === 'all' || filt === 'ostatni')) classes.push('v-ostatni');
       else if (e.pilates && (filt === 'all' || filt === 'pilates')) classes.push('v-pilates');
 
       // Dim if filtered and doesn't match
@@ -563,7 +597,7 @@
   function openSheet(k, d) {
     selDate = k;
     const e = db[k] || {};
-    ms = { silovy: !!e.silovy, pilates: !!e.pilates, diastaza: !!e.diastaza };
+    ms = { silovy: !!e.silovy, pilates: !!e.pilates, diastaza: !!e.diastaza, ostatni: !!e.ostatni };
     document.getElementById('sheetDate').textContent =
       `${d}. ${MONTHS_GEN[mo]} ${yr}`;
     syncSheet();
@@ -577,7 +611,7 @@
   }
 
   function syncSheet() {
-    ['silovy','pilates','diastaza'].forEach(a =>
+    ['silovy','pilates','diastaza','ostatni'].forEach(a =>
       document.getElementById(`row-${a}`).classList.toggle('on', ms[a]));
   }
 
@@ -589,7 +623,7 @@
   }
 
   function save() {
-    if (ms.silovy || ms.pilates || ms.diastaza) {
+    if (ms.silovy || ms.pilates || ms.diastaza || ms.ostatni) {
       db[selDate] = { ...ms };
     } else {
       delete db[selDate];
