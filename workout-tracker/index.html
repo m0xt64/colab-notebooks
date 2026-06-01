@@ -31,8 +31,8 @@
     }
 
     .avatar {
-      width: 44px;
-      height: 44px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: linear-gradient(135deg, #C8AE96, #A8907A);
       overflow: hidden;
@@ -407,6 +407,26 @@
       color: #fff;
     }
 
+    .act-list {
+      position: relative;
+      max-height: 260px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 14px;
+    }
+
+    .act-list::after {
+      content: '';
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      display: block;
+      background: linear-gradient(to bottom, transparent, #FDFAF7);
+      pointer-events: none;
+    }
+
     .save-btn {
       width: 100%;
       padding: 16px;
@@ -472,36 +492,38 @@
     <div class="handle" onclick="closeSheet()"></div>
     <div class="sheet-date" id="sheetDate"></div>
 
-    <div class="act-row" id="row-silovy" onclick="toggle('silovy')">
-      <div class="act-left">
-        <div class="act-swatch sw-silovy"></div>
-        <span class="act-name">Silový trénink</span>
+    <div class="act-list">
+      <div class="act-row" id="row-silovy" onclick="toggle('silovy')">
+        <div class="act-left">
+          <div class="act-swatch sw-silovy"></div>
+          <span class="act-name">Silový trénink</span>
+        </div>
+        <div class="act-check">✓</div>
       </div>
-      <div class="act-check">✓</div>
-    </div>
 
-    <div class="act-row" id="row-pilates" onclick="toggle('pilates')">
-      <div class="act-left">
-        <div class="act-swatch sw-pilates"></div>
-        <span class="act-name">Pilates</span>
+      <div class="act-row" id="row-pilates" onclick="toggle('pilates')">
+        <div class="act-left">
+          <div class="act-swatch sw-pilates"></div>
+          <span class="act-name">Pilates</span>
+        </div>
+        <div class="act-check">✓</div>
       </div>
-      <div class="act-check">✓</div>
-    </div>
 
-    <div class="act-row" id="row-diastaza" onclick="toggle('diastaza')">
-      <div class="act-left">
-        <div class="act-swatch sw-diastaza"></div>
-        <span class="act-name">Diastáza</span>
+      <div class="act-row" id="row-diastaza" onclick="toggle('diastaza')">
+        <div class="act-left">
+          <div class="act-swatch sw-diastaza"></div>
+          <span class="act-name">Diastáza</span>
+        </div>
+        <div class="act-check">✓</div>
       </div>
-      <div class="act-check">✓</div>
-    </div>
 
-    <div class="act-row" id="row-ostatni" onclick="toggle('ostatni')">
-      <div class="act-left">
-        <div class="act-swatch sw-ostatni"></div>
-        <span class="act-name">Ostatní</span>
+      <div class="act-row" id="row-ostatni" onclick="toggle('ostatni')">
+        <div class="act-left">
+          <div class="act-swatch sw-ostatni"></div>
+          <span class="act-name">Ostatní</span>
+        </div>
+        <div class="act-check">✓</div>
       </div>
-      <div class="act-check">✓</div>
     </div>
 
     <button class="save-btn" onclick="save()">Uložit</button>
