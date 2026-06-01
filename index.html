@@ -109,6 +109,19 @@
       gap: 2px;
       box-shadow: 0 1px 6px rgba(0,0,0,0.06);
       overflow: hidden;
+      position: relative;
+    }
+
+    .filter-pill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 36px;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.92));
+      border-radius: 0 50px 50px 0;
+      pointer-events: none;
     }
 
     .ftab {
@@ -413,18 +426,6 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       margin-bottom: 14px;
-    }
-
-    .act-list::after {
-      content: '';
-      position: sticky;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 48px;
-      display: block;
-      background: linear-gradient(to bottom, transparent, #FDFAF7);
-      pointer-events: none;
     }
 
     .save-btn {
