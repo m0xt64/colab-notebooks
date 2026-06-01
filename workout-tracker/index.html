@@ -112,22 +112,9 @@
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      position: relative;
     }
 
     .filter-pill::-webkit-scrollbar { display: none; }
-
-    .filter-pill::after {
-      content: '';
-      position: sticky;
-      right: 0;
-      flex-shrink: 0;
-      width: 32px;
-      align-self: stretch;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.88));
-      pointer-events: none;
-      margin-left: -32px;
-    }
 
     .ftab {
       flex-shrink: 0;
