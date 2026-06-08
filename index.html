@@ -222,17 +222,19 @@
         );
     }
 
-    /* ── DIASTÁZA: reverse diagonal hatching ── */
-    .day.v-diastaza:not(.v-silovy):not(.v-pilates):not(.v-ostatni) {
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          rgba(0,0,0,0.42) 0px,
-          rgba(0,0,0,0.42) 1.5px,
-          rgba(254,252,249,0.92) 1.5px,
-          rgba(254,252,249,0.92) 6px
-        );
+    /* ── DIASTÁZA: dot below number ── */
+    .diastaza-dot {
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #1A1612;
     }
+
+    .day.v-silovy .diastaza-dot { background: rgba(255,255,255,0.72); }
 
     /* ── TODAY ── */
     .day.is-today { box-shadow: inset 0 0 0 1.5px rgba(26,22,18,0.5); }
@@ -343,21 +345,27 @@
     }
 
     .sw-diastaza {
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          rgba(0,0,0,0.55) 0px,
-          rgba(0,0,0,0.55) 1.5px,
-          #F2EDE7 1.5px,
-          #F2EDE7 6px
-        );
-      border: 1px solid rgba(0,0,0,0.15);
+      background: #F2EDE7;
+      border: 1px solid rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .sw-diastaza::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #1A1612;
     }
 
     .sw-ostatni {
       background:
         repeating-linear-gradient(
-          45deg,
+          -45deg,
           rgba(0,0,0,0.55) 0px,
           rgba(0,0,0,0.55) 1.5px,
           #F2EDE7 1.5px,
@@ -370,7 +378,7 @@
     .day.v-ostatni:not(.v-silovy):not(.v-pilates) {
       background:
         repeating-linear-gradient(
-          45deg,
+          -45deg,
           rgba(0,0,0,0.42) 0px,
           rgba(0,0,0,0.42) 1.5px,
           rgba(254,252,249,0.92) 1.5px,
@@ -581,10 +589,9 @@
       const hasActivity = e.silovy || e.pilates || e.diastaza || e.ostatni;
       const matchesFilter = filt === 'all' ? hasActivity : e[filt];
 
-      // Visual state (priority: silovy > ostatni > diastaza > pilates)
+      // Visual state (priority: silovy > ostatni > pilates)
       if (e.silovy && (filt === 'all' || filt === 'silovy')) classes.push('v-silovy');
       else if (e.ostatni && (filt === 'all' || filt === 'ostatni')) classes.push('v-ostatni');
-      else if (e.diastaza && (filt === 'all' || filt === 'diastaza')) classes.push('v-diastaza');
       else if (e.pilates && (filt === 'all' || filt === 'pilates')) classes.push('v-pilates');
 
       // Dim if filtered and doesn't match
@@ -597,6 +604,13 @@
       num.className = 'day-num';
       num.textContent = d;
       cell.appendChild(num);
+
+      // Diastaza dot
+      if (e.diastaza && (filt === 'all' || filt === 'diastaza')) {
+        const dot = document.createElement('div');
+        dot.className = 'diastaza-dot';
+        cell.appendChild(dot);
+      }
 
       grid.appendChild(cell);
     }
